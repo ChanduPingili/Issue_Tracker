@@ -7,5 +7,7 @@
   "issue_emp_id": "",
   "issue_sts_id": "",
   "issue_img_url": "",
-  "issue_uid": ""
+  "issue_uid": "",
+  "issue_sid": "",
+  "issue_org_id": ""
 }]
