@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "664dc49442274d07ade71ffe"
+  },
+  "emp_name": "",
+  "emp_password": "",
+  "emp_email": "",
+  "emp_phno": "",
+  "emp_id": "",
+  "emp_status": "",
+  "emp_service_id": "",
+  "emp_org_id": "",
+  "emp_issue_ids": [
+    ""
+  ]
+}]

@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "664dc38742274d07ade71ffa"
+  },
+  "org_id": "",
+  "org_email": "",
+  "service_ids": [
+    ""
+  ],
+  "org_password": "",
+  "org_name": ""
+}]

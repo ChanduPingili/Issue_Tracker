@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "664dc9c342274d07ade72028"
+  },
+  "user_id": "",
+  "user_email": "",
+  "user_name": "",
+  "user_issue_ids": [
+    ""
+  ],
+  "user_password": ""
+}]
