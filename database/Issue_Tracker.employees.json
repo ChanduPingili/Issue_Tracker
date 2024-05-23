@@ -12,5 +12,8 @@
   "emp_org_id": "",
   "emp_issue_ids": [
     ""
-  ]
+  ],
+  "taskCount": {
+    "$numberLong": "0"
+  }
 }]
