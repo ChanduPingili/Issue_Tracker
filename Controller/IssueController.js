@@ -5,6 +5,9 @@ const MappingModel = require('../Model/MappingModel');
 const EmployeeModel = require('../Model/EmployeeModel');
 const Organization=require('../Model/OrganizationModel')
 const Service=require('../Model/ServiceModel')
+const UserModel=require('../Model/UserModel')
+
+
 async function getHomeIssues(req, res) {
     try {
         const issues = await issueModel.find();
@@ -15,7 +18,7 @@ async function getHomeIssues(req, res) {
     }
 }
 
-async function IssueEditData(req, res) {
+async function getIssue(req, res) {
     try {
         const { issueId } = req.params;
         const issue = await issueModel.findOne({ issueId: issueId });
@@ -56,9 +59,9 @@ async function IssueSave(req, res) {
         const statusId = 3000 + (await statusModel.countDocuments()) + 1;
 
         // Find an employee with less than 4 tasks
-        const employee = await EmployeeModel.findOne({ taskCount: { $lt: 6 } ,empOrgId:issueOrgId,empServiceId:issueServiceId});
+        const employee = await EmployeeModel.findOne({ taskCount: { $lt: 10} ,empOrgId:issueOrgId,empServiceId:issueServiceId});
         if (!employee) {
-            return res.status(400).send('No available employee with less than 6 tasks');
+            return res.status(400).send('No available employee with less than 10 tasks');
         }
 
         // Create a new issue document
@@ -78,6 +81,21 @@ async function IssueSave(req, res) {
             issueServiceId: issueServiceId
 
         });
+        let user = await UserModel.findOne({ userId: createdBy });
+        if (!user) {
+            user = await UserModel.create({
+                userId: createdBy,
+                userName: 'Unknown3', 
+                userPassword: 'password3',
+                userEmail: 'unknown@example.com3',
+                userIssueIds: [],
+            });
+        }
+
+       
+        user.userIssueIds.push(issue.issueId);
+        await user.save();
+
 
         const organization = await Organization.findOne({ orgId: issueOrgId });
         if (organization) {
@@ -138,10 +156,36 @@ async function IssueEditSave(req, res) {
     }
 }
 
+async function getUserIssues(req,res){
+    
+        try {
+            const { createdBy } = req.params;
+            const issues = await issueModel.find({createdBy});
+            res.status(200).json(issues);
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Server failed to fetch issues");
+        }
+    
+}
+async function getEmployeeIssues(req,res){
+    
+    try {
+        const { connectedTo } = req.params;
+        const issues = await issueModel.find({connectedTo});
+        res.status(200).json(issues);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server failed to fetch issues");
+    }
+
+}
 module.exports = {
     getHomeIssues,
-    IssueEditData,
+    getIssue,
     IssueDelete,
     IssueSave,
-    IssueEditSave
+    IssueEditSave,
+    getUserIssues,
+    getEmployeeIssues
 };

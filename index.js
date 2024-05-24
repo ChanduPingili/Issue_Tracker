@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
-
+const cors=require('cors');
 
 const IssueModel = require('./Model/IssueModel');
 const issueController = require('./Controller/IssueController');
-
 
 const StatusModel = require('./Model/StatusModel');
 const statusController = require('./Controller/StatusController');
@@ -21,12 +20,16 @@ const ServiceController = require('./Controller/ServiceController');
 const OrganizationModel = require('./Model/OrganizationModel');
 const OrganizationController = require('./Controller/OrganizationController');
 
+const UserModel = require('./Model/UserModel');
+const UserController = require('./Controller/UserController');
+ 
+
+
 const app = express();
 app.use(express.urlencoded({extended:true}))
 const PORT = process.env.PORT || 2000;
-
 app.use(bodyParser.json());
-
+app.use(cors);
 
 mongoose.connect('mongodb://localhost:27017/issue_tracker');
 const db = mongoose.connection;
@@ -43,8 +46,10 @@ app.get('/api/status',statusController.getStatus);
 
 //Issues
 app.get('/api/issues', issueController.getHomeIssues);
-app.get('/api/issues/:issueId', issueController.IssueEditData);
-app.post('/api/issues', issueController.IssueSave);
+app.get('/api/issues/user/:createdBy',issueController.getUserIssues);
+app.get('/api/issues/employee/:connectedTo',issueController.getEmployeeIssues);
+app.get('/api/issues/:issueId', issueController.getIssue);
+app.post('/api/user/raise-ticket', issueController.IssueSave);
 app.put('/api/issues/:issueId', issueController.IssueEditSave);
 app.delete('/api/issues/:issueId', issueController.IssueDelete);
 
@@ -64,6 +69,8 @@ app.delete('/api/service/:sId',ServiceController.deleteService );
 app.post('/api/organization',OrganizationController.addOrganization);
 app.get('/api/organization', OrganizationController.getOrganizations);
 
+//Users
+app.get('/api/users',UserController.getAllUsers);
 
 
 app.listen(PORT, () => {
