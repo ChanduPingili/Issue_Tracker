@@ -1,12 +1,27 @@
 [{
   "_id": {
-    "$oid": "664dc9c342274d07ade72028"
+    "$oid": "66503c936f5a4e657f4d6c07"
   },
-  "user_id": "",
-  "user_email": "",
-  "user_name": "",
-  "user_issue_ids": [
-    ""
+  "userId": "1123",
+  "userName": "Unknown",
+  "userPassword": "password",
+  "userEmail": "unknown@example.com",
+  "userIssueIds": [
+    "5061",
+    "5063"
   ],
-  "user_password": ""
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "66503cde02b944ac12831767"
+  },
+  "userId": "1222",
+  "userName": "Unknown2",
+  "userPassword": "password2",
+  "userEmail": "unknown@example.com2",
+  "userIssueIds": [
+    "5062"
+  ],
+  "__v": 1
 }]
