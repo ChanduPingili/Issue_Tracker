@@ -27,11 +27,18 @@ const UserController = require('./Controller/UserController');
 
 const app = express();
 app.use(express.urlencoded({extended:true}))
-const PORT = process.env.PORT || 2000;
+const PORT =2000;
 app.use(bodyParser.json());
-app.use(cors);
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
-mongoose.connect('mongodb://localhost:27017/issue_tracker');
+mongoose.connect('mongodb://127.0.0.1:27017/Issue_Tracker', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
@@ -68,7 +75,7 @@ app.delete('/api/service/:sId',ServiceController.deleteService );
 //Organizations
 app.post('/api/organization',OrganizationController.addOrganization);
 app.get('/api/organization', OrganizationController.getOrganizations);
-
+app.get('/api/organization/:orgId',OrganizationController.getOrganization);
 //Users
 app.get('/api/users',UserController.getAllUsers);
 

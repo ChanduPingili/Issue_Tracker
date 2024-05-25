@@ -26,6 +26,7 @@ exports.showOpenStatus = async (req, res) => {
     try {
         const openStatus = await StatusModel.find({ status: 'open' });
         res.status(200).json(openStatus);
+        res.end();
     } catch (error) {
         console.error(error);
         res.status(500).send('Failed to retrieve open status');
@@ -34,6 +35,7 @@ exports.showOpenStatus = async (req, res) => {
 exports.getStatus = async (req, res) => {
     try {
         const Status = await StatusModel.find();
+        // console.log(Status);
         res.status(200).json(Status);
     } catch (error) {
         console.error(error);
@@ -61,7 +63,7 @@ exports.updateStatus = async (req, res) => {
         const update = { status: status, statusDescription: statusDescription }; 
 
         const updatedStatus = await StatusModel.findOneAndUpdate(filter, update, { new: true });
-
+        console.log(updatedStatus);
         if (updatedStatus) {
             res.status(200).json(updatedStatus);
         } else {

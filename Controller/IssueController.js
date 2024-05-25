@@ -53,34 +53,37 @@ async function IssueDelete(req, res) {
 
 async function IssueSave(req, res) {
     try {
-        const { imageUrl, issueName, issueDesc, createdOn, createdBy, connectedBy, status ,issueOrgId, issueServiceId } = req.body;
+        // const { imageUrl, issueName, issueDesc, createdOn, createdBy, connectedBy, status ,issueOrgId, issueServiceId } = req.body;
+        const { issueName, issueDesc, createdBy, status ,issueOrgId, issueServiceId } = req.body;
 
         // Generate a unique statusId
         const statusId = 3000 + (await statusModel.countDocuments()) + 1;
 
         // Find an employee with less than 4 tasks
+        console.log("In issue save ",req.body)
         const employee = await EmployeeModel.findOne({ taskCount: { $lt: 10} ,empOrgId:issueOrgId,empServiceId:issueServiceId});
         if (!employee) {
             return res.status(400).send('No available employee with less than 10 tasks');
         }
-
+        console.log("In issue save employee ",employee)
+        
         // Create a new issue document
         const newIssueId =5000 + (await issueModel.countDocuments()) + 1;
         const issue = await issueModel.create({
             issueId: newIssueId,
-            imageUrl,
+            imageUrl:"",
             issueName,
             issueDesc,
-            createdOn,
+            createdOn: new Date().toISOString().slice(0, 10),
             createdBy,
-            connectedBy,
             connectedTo: employee.empId,
-            status: 'notopened', 
+            status: 'notopened',
             issueStatusId: statusId,
-            issueOrgId: issueOrgId, 
+            issueOrgId: issueOrgId,
             issueServiceId: issueServiceId
-
+            
         });
+        console.log("In issue save new issue ",issue)
         let user = await UserModel.findOne({ userId: createdBy });
         if (!user) {
             user = await UserModel.create({
@@ -91,36 +94,40 @@ async function IssueSave(req, res) {
                 userIssueIds: [],
             });
         }
-
-       
+        
+        
         user.userIssueIds.push(issue.issueId);
         await user.save();
-
-
+        console.log("In issue save user ",user)
+        
+        
         const organization = await Organization.findOne({ orgId: issueOrgId });
         if (organization) {
             organization.orgIssueId.push(newIssueId);
             await organization.save();
-        
+            
         }
+        console.log("In issue save org ",organization)
         const service = await Service.findOne({ sId:issueServiceId});
         if (service) {
             service.sIssueIds.push(newIssueId);
             await service.save();
-        
+            
         }
+        console.log("In issue save service",service)
         await statusModel.create({
             issueId: newIssueId,
             statusId,
             status
         });
-
-       
+        
+        
         await EmployeeModel.updateOne(
             { empId: employee.empId },
             { $push: { empIssueId: newIssueId }, $inc: { taskCount: 1 } }
         );
-
+        // console.log("In issue save service",service)
+        
         res.status(201).json(issue);
     } catch (err) {
         console.error(err);
@@ -134,11 +141,12 @@ async function IssueSave(req, res) {
 async function IssueEditSave(req, res) {
     try {
         const { issueId } = req.params;
-        const { status } = req.body;
+        // const { status } = req.body;
+        const { issueDesc } = req.body;
 
-        if (status && status !== 'open' && status !== 'closed') {
-            return res.status(400).send('Status must be either "open" or "closed"');
-        }
+        // if (status && status !== 'open' && status !== 'closed') {
+        //     return res.status(400).send('Status must be either "open" or "closed"');
+        // }
 
         const updatedIssue = await issueModel.findOneAndUpdate(
             { issueId: issueId },
@@ -173,6 +181,7 @@ async function getEmployeeIssues(req,res){
     try {
         const { connectedTo } = req.params;
         const issues = await issueModel.find({connectedTo});
+        // console.log(issues);
         res.status(200).json(issues);
     } catch (err) {
         console.error(err);

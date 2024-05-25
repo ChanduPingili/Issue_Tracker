@@ -45,7 +45,21 @@ async function getOrganizations(req, res) {
     }
 }
 
+async function getOrganization(req, res) {
+    const {orgId} = req.params;
+    try {
+        const organization= await Organization.findOne({orgId});
+        if(organization)
+            res.status(200).json(organization.serviceIds);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Failed to retrieve organization');
+    }
+}
+
+
 module.exports = {
     addOrganization,
-    getOrganizations
+    getOrganizations,
+    getOrganization
 };
