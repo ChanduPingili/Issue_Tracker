@@ -1,0 +1,86 @@
+/* App.css */
+
+/* General reset and styling */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* NavBar styling */
+.navbar {
+  background-color: #282c34;
+  padding: 1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+/* Home page styling */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.home-container h1 {
+  color: #282c34;
+}
+
+/* Login and Register page styling */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.auth-container h2 {
+  margin-bottom: 1rem;
+  color: #282c34;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-container input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-container button {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #61dafb;
+  color: white;
+  cursor: pointer;
+}
+
+.auth-container button:hover {
+  background-color: #21a1f1;
+}
