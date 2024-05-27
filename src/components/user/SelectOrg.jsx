@@ -60,15 +60,15 @@ function SelectOrg({ handleOrgId }) {
     const fetchOrgs = async () => {
       try {
         // Example API call using axios (uncomment and replace with actual endpoint)
-        // const response = await axios.get("http://localhost:2000/api/organization");
-        // setOrgs(response.data);
+        const response = await axios.get("http://localhost:2000/api/organization");
+        setOrgs(response.data);
 
         // Example data for testing without API call
-        const testData = [
-          { orgId: 1, orgName: "Org 1" },
-          { orgId: 2, orgName: "Org 2" },
-        ];
-        setOrgs(testData);
+        // const testData = [
+        //   { orgId: 1, orgName: "Org 1" },
+        //   { orgId: 2, orgName: "Org 2" },
+        // ];
+        // setOrgs(testData);
       } catch (error) {
         console.error(error);
       }

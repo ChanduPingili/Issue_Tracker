@@ -63,7 +63,7 @@
 import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 // Import axios if you uncomment the API calls
-// import axios from "axios";
+import axios from "axios";
 
 function SelectService({ orgId, handleServiceId }) {
 	const [services, setServices] = useState([]);
@@ -75,22 +75,25 @@ function SelectService({ orgId, handleServiceId }) {
 		const fetchServices = async () => {
 			try {
 				// Example API call using axios (uncomment and replace with actual endpoints)
-				// const response1 = await axios.get(`http://localhost:2000/org/orgservices/:${orgId}`);
-				// const response2 = await axios.get("http://localhost:2000/api/service");
-
+				let serviceData = [];
+				let totalServiceData = [];
+				const response1 = await axios.get(`http://localhost:2000/api/organization/${orgId}`);
+				const response2 = await axios.get("http://localhost:2000/api/service");
+				serviceData = response1.data;
+				totalServiceData = response2.data;
 				// Assuming response1.data and response2.data are arrays of services
 				// setServices(response1.data);
 				// setTotalServices(response2.data);
 
 				// Example data for testing without API calls
-				const testData1 = [{ sId: 1 }];
-				const testData2 = [
-					{ sId: 1, sName: "Service 1" },
-					{ sId: 2, sName: "Service 2" },
-				];
+				// const testData1 = [{ sId: 1 }];
+				// const testData2 = [
+				// 	{ sId: 1, sName: "Service 1" },
+				// 	{ sId: 2, sName: "Service 2" },
+				// ];
 
-				setServices(testData1);
-				setTotalServices(testData2);
+				setServices(serviceData);
+				setTotalServices(totalServiceData);
 			} catch (error) {
 				console.error(error);
 			}
@@ -101,7 +104,7 @@ function SelectService({ orgId, handleServiceId }) {
 
 	useEffect(() => {
 		const tempServices = totalServices.filter((tservice) =>
-			services.some((service) => service.sId === tservice.sId)
+			services.some((service) => service === tservice.sId)
 		);
 
 		setOrgServices(tempServices);

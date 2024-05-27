@@ -12,6 +12,7 @@
     "express": "^4.19.2",
     "mongoose": "^8.4.0",
     "nodemon": "^3.1.0",
+    "proxy-agent": "^6.4.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",

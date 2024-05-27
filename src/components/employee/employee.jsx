@@ -277,6 +277,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import EmpNavbar from "./emp_navbar";
 import EmpIssues from "./issues";
+
+// import ProxyAgent from "proxy-agent";
+
+// const proxyAgent = new ProxyAgent("http://172.16.20.200:3128");
 // const Employee = () => {
 // 	const [currentEmpIssues, setCurrentEmpIssues] = useState([]);
 // 	const [solvedIssues, setSolvedIssues] = useState([]);
@@ -394,117 +398,122 @@ import EmpIssues from "./issues";
 // export default Employee;
 
 const Employee = () => {
-	const [currentEmpIssues, setCurrentEmpIssues] = useState([]);
-	const [solvedIssues, setSolvedIssues] = useState([]);
-	const [unsolvedIssues, setUnsolvedIssues] = useState([]);
-	const [tempIssues, setTempIssues] = useState([]);
-	const [status, setStatus] = useState([]);
-	// const [empId, setEmpId] = useState(localStorage.getItem("empId"));
-	const [empId, setEmpId] = useState("211"); // assuming empId is set to "1" for testing
+  const [currentEmpIssues, setCurrentEmpIssues] = useState([]);
+  const [solvedIssues, setSolvedIssues] = useState([]);
+  const [unsolvedIssues, setUnsolvedIssues] = useState([]);
+  const [tempIssues, setTempIssues] = useState([]);
+  const [status, setStatus] = useState([]);
+  // const [empId, setEmpId] = useState(localStorage.getItem("empId"));
+  const [empId, setEmpId] = useState("201"); // assuming empId is set to "1" for testing
 
-	useEffect(() => {
-		const fetchData = async () => {
-			let statusData = [];
-			let currentIssueData = [];
+  useEffect(() => {
+    const fetchData = async () => {
+      let statusData = [];
+      let currentIssueData = [];
 
-			// Simulating API calls
-			try {
-				const statusResponse = await axios.get(
-					"http://localhost:2000/api/status"
-				);
-				statusData = statusResponse.data;
-				console.log(statusData);
+      // Simulating API calls
+      try {
+        const statusResponse = await axios.get(
+          "http://localhost:2000/api/status"
+        );
+        statusData = statusResponse.data;
+        console.log(statusData);
 
-				const issuesResponse = await axios.get(
-					`http://localhost:2000/api/issues/employee/${empId}`
-				);
-				currentIssueData = issuesResponse.data;
-			} catch (error) {
-				console.error(error);
-			}
+        const issuesResponse = await axios.get(
+          `http://localhost:2000/api/issues/employee/${empId}`
+          // {
+          //   httpAgent: proxyAgent,
+          //   httpsAgent: proxyAgent,
+          // }
+        );
+        currentIssueData = issuesResponse.data;
+      } catch (error) {
+        console.error(error);
+      }
 
-			// Mock data for testing
-			// statusData = [
-			// 	{
-			// 		statusId: "123",
-			// 		status: "closed",
-			// 		issueId: "1",
-			// 		statusDescription: "It may take 2 days",
-			// 	},
-			// 	{
-			// 		statusId: "124",
-			// 		status: "open",
-			// 		issueId: "2",
-			// 		statusDescription: "It may take 5 days",
-			// 	},
-			// ];
+      // Mock data for testing
+      // statusData = [
+      // 	{
+      // 		statusId: "123",
+      // 		status: "closed",
+      // 		issueId: "1",
+      // 		statusDescription: "It may take 2 days",
+      // 	},
+      // 	{
+      // 		statusId: "124",
+      // 		status: "open",
+      // 		issueId: "2",
+      // 		statusDescription: "It may take 5 days",
+      // 	},
+      // ];
 
-			// currentIssueData = [
-			// 	{
-			// 		issueId: "1",
-			// 		issueName: "Delivery",
-			// 		issueDesc: "Got wrong item",
-			// 		connectedTo: "1234",
-			// 		status: "123",
-			// 	},
-			// 	{
-			// 		issueId: "2",
-			// 		issueName: "Payment",
-			// 		issueDesc: "Payment failed",
-			// 		connectedTo: "1254",
-			// 		status: "124",
-			// 	},
-			// ];
+      // currentIssueData = [
+      // 	{
+      // 		issueId: "1",
+      // 		issueName: "Delivery",
+      // 		issueDesc: "Got wrong item",
+      // 		connectedTo: "1234",
+      // 		status: "123",
+      // 	},
+      // 	{
+      // 		issueId: "2",
+      // 		issueName: "Payment",
+      // 		issueDesc: "Payment failed",
+      // 		connectedTo: "1254",
+      // 		status: "124",
+      // 	},
+      // ];
 
-			setCurrentEmpIssues(currentIssueData);
-			setStatus(statusData);
+      setCurrentEmpIssues(currentIssueData);
+      setStatus(statusData);
 
-			const solvedIssuesData = currentIssueData.filter((issue) =>
-				statusData.some(
-					(status) =>
-						status.issueId === issue.issueId && status.status === "closed"
-				)
-			);
-			const unsolvedIssuesData = currentIssueData.filter((issue) =>
-				statusData.some(
-					(status) =>
-						status.issueId === issue.issueId && status.status !== "closed"
-				)
-			);
+      const solvedIssuesData = currentIssueData.filter((issue) =>
+        statusData.some(
+          (status) =>
+            status.issueId === issue.issueId && status.status === "closed"
+        )
+      );
+      const unsolvedIssuesData = currentIssueData.filter((issue) =>
+        statusData.some(
+          (status) =>
+            status.issueId === issue.issueId && status.status !== "closed"
+        )
+      );
 
-			setSolvedIssues(solvedIssuesData);
-			setUnsolvedIssues(unsolvedIssuesData);
-			setTempIssues(currentIssueData);
-		};
+      setSolvedIssues(solvedIssuesData);
+      setUnsolvedIssues(unsolvedIssuesData);
+      setTempIssues(currentIssueData);
+    };
 
-		fetchData();
-	}, [empId]);
+    fetchData();
+  }, [empId]);
 
-	const handleAllIssues = () => {
-		setTempIssues(currentEmpIssues);
-		console.log("All Issues Clicked");
-	};
+  const handleAllIssues = () => {
+    setTempIssues(currentEmpIssues);
+    console.log(currentEmpIssues);
+    console.log("All Issues Clicked");
+  };
 
-	const handleSolvedIssues = () => {
-		setTempIssues(solvedIssues);
-		console.log("Solved Issues Clicked");
-	};
+  const handleSolvedIssues = () => {
+    setTempIssues(solvedIssues);
+    console.log("Solved Issues Clicked");
+  };
 
-	const handleUnsolvedIssues = () => {
-		setTempIssues(unsolvedIssues);
-		console.log("Unsolved Issues Clicked");
-	};
+  const handleUnsolvedIssues = () => {
+    setTempIssues(unsolvedIssues);
+    console.log("Unsolved Issues Clicked");
+  };
 
-	return (
-		<>
-			<EmpNavbar
-				handleAllIssues={handleAllIssues}
-				handleSolvedIssues={handleSolvedIssues}
-				handleUnsolvedIssues={handleUnsolvedIssues}
-			/>
-			<EmpIssues tempIssues={tempIssues} status={status} />
-		</>
-	);
+  return (
+    <>
+      <EmpNavbar
+        handleAllIssues={handleAllIssues}
+        handleSolvedIssues={handleSolvedIssues}
+        handleUnsolvedIssues={handleUnsolvedIssues}
+      />
+      <EmpIssues tempIssues={tempIssues} status={status} />
+    </>
+  );
 };
 
 export default Employee;

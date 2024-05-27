@@ -14,7 +14,7 @@ const IssueBody = ({ issue, status }) => {
 			// statusId: status.statusId,
 			status: "open",
 			// statusDescription: status.statusDescription,
-			statusDescription: "dsghh",
+			statusDescription: "",
 		};
 		console.log(newStatus);
 		await axios
@@ -113,8 +113,9 @@ const IssueBody = ({ issue, status }) => {
 					ref={descRef}
 				></input>
 				<hr />
-				Status : {issue.status ? issue.status : ""} | Status Description :{" "}
-				{/* {status.statusDescription ? status.statusDescription : ""} */}
+				Status Description :
+				{status ? status.statusDescription : ""} | Status : {status ? status.status: ""}
+
 			</Card.Footer>
 		</Card>
 	);

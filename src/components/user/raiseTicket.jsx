@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import SelectOrg from "./SelectOrg";
 import SelectService from "./SelectService";
+import axios from "axios";
 const RaiseTicket = ({ userId }) => {
 	// handleIssues();
 	// console.log(handleIssues);
@@ -32,14 +33,14 @@ const RaiseTicket = ({ userId }) => {
 			//organisation id , service id , types are strings
 		};
 		console.log(newTicket);
-		// await axios
-		// 	.post("http://localhost:2000/api/user/raise-ticket", newTicket)
-		// 	.then((res) => {
-		// 		console.log(res.data);
-		// 	})
-		// 	.catch((e) => {
-		// 		console.log(e);
-		// 	});
+		await axios
+			.post("http://localhost:2000/api/user/raise-ticket", newTicket)
+			.then((res) => {
+				console.log(res.data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
 	};
 	return (
 		<Form>

@@ -4,6 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import RaiseTicket from "./raiseTicket";
 import UserNavbar from "./user_navbar";
 import UserIssues from "./userIssues";
+import axios from "axios";
 // const User = () => {
 // 	const [issues, setIssues] = useState([]);
 // 	const [solvedIssues, setSolvedIssues] = useState([]);
@@ -175,7 +176,7 @@ const User = () => {
 	const [status, setStatus] = useState([]);
 	// const [userIssues, setUserIssues] = useState([]);
 	// const [userId, setUserId] = useState(localStorage.getItem("userId"));
-	const [userId, setUserId] = useState("1");
+	const [userId, setUserId] = useState("1123");
 	const [currentUserIssues, setCurrentUserIssues] = useState([]);
 	const navigate = useNavigate();
 
@@ -188,53 +189,53 @@ const User = () => {
 			let unsolvedIssuesData = [];
 			let currentIssueData = [];
 			// setUserId(localStorage.getItem("userId"));
-			// await axios
-			// 	.get(`http://localhost:2000/api/issues/user/${userId}`)
-			// 	.then((res) => {
-			// 		currentIssueData = res.data;
-			// });
-			// setCurrentUserIssues(currentIssueData);
+			await axios
+				.get(`http://localhost:2000/api/issues/user/${userId}`)
+				.then((res) => {
+					currentIssueData = res.data;
+			});
+			setCurrentUserIssues(currentIssueData);
 			// await axios
 			// 	.get("http://localhost:2000/api/issues")
 			// 	.then((res) => {
 			// 		issuesData = res.data;
 			// 	})
 			// 	.catch((e) => console.log(e));
-			// await axios
-			// 	.get("http://localhost:2000/api/status")
-			// 	.then((res) => {
-			// 		statusData = res.data;
-			// 	})
-			// 	.catch((e) => console.log(e));
+			await axios
+				.get("http://localhost:2000/api/status")
+				.then((res) => {
+					statusData = res.data;
+				})
+				.catch((e) => console.log(e));
 			// await axios
 			// .get(`http://localhost:2000/api/user/userissues/:${userId}`)
 			// 	.then((res) => {
 			// 		userIssueData = res.data;
 			// 	})
 			// 	.catch((e) => console.log(e));
-			currentIssueData = [
-				{
-					issueId: "1",
-					issueName: "Delivery",
-					issueDesc: "Got wrong item",
-					connectedTo: "1234",
-					status: "123",
-				},
-				{
-					issueId: "2",
-					issueName: "Payment",
-					issueDesc: "Payment failed",
-					connectedTo: "1254",
-					status: "124",
-				},
-				{
-					issueId: "3",
-					issueName: "Online",
-					issueDesc: "Payment failed",
-					connectedTo: "125",
-					status: "125",
-				},
-			];
+			// currentIssueData = [
+			// 	{
+			// 		issueId: "1",
+			// 		issueName: "Delivery",
+			// 		issueDesc: "Got wrong item",
+			// 		connectedTo: "1234",
+			// 		status: "123",
+			// 	},
+			// 	{
+			// 		issueId: "2",
+			// 		issueName: "Payment",
+			// 		issueDesc: "Payment failed",
+			// 		connectedTo: "1254",
+			// 		status: "124",
+			// 	},
+			// 	{
+			// 		issueId: "3",
+			// 		issueName: "Online",
+			// 		issueDesc: "Payment failed",
+			// 		connectedTo: "125",
+			// 		status: "125",
+			// 	},
+			// ];
 			// userIssueData = ["1", "2"];
 			setCurrentUserIssues(currentIssueData);
 
@@ -266,26 +267,26 @@ const User = () => {
 			// 	userIssueData.some((userIssue) => userIssue === issue.issueId)
 			// );
 
-			statusData = [
-				{
-					statusId: "123",
-					status: "closed",
-					issueId: "1",
-					statusDescription: "It may take 2 days",
-				},
-				{
-					statusId: "124",
-					status: "open",
-					issueId: "2",
-					statusDescription: "It may take 5 days",
-				},
-				{
-					statusId: "125",
-					status: "open",
-					issueId: "3",
-					statusDescription: "It may take 1 day",
-				},
-			];
+			// statusData = [
+			// 	{
+			// 		statusId: "123",
+			// 		status: "closed",
+			// 		issueId: "1",
+			// 		statusDescription: "It may take 2 days",
+			// 	},
+			// 	{
+			// 		statusId: "124",
+			// 		status: "open",
+			// 		issueId: "2",
+			// 		statusDescription: "It may take 5 days",
+			// 	},
+			// 	{
+			// 		statusId: "125",
+			// 		status: "open",
+			// 		issueId: "3",
+			// 		statusDescription: "It may take 1 day",
+			// 	},
+			// ];
 
 			// setIssues(issuesData);
 			setStatus(statusData);
